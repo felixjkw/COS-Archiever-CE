@@ -33,3 +33,17 @@ class Config:
     # Logging
     log_level: str = os.getenv('LOG_LEVEL', 'INFO')
 
+def get_config() -> Config:
+    return Config()
+
+def vaildate_config(config: Config) -> None: 
+    required_fields = [
+        ("claudant_url", config.claudant_url),
+        ("cos_endpoint", config.cos_endpoint),
+        ("cos_api_key", config.cos_api_key),
+    ]
+
+    missing_fields = [field for field, value in required_fields if not value]
+
+    if missing_fields:
+        raise ValueError(f"Missing requirement:{", ".join(missing_fields)}")
